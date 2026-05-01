@@ -229,14 +229,16 @@ function changePlayerCount(delta) {
   state.playerCount = next;
   const maxImpostors = Math.max(1, state.playerCount - 2);
   const maxUndercover = state.hasGhost ? maxImpostors - 1 : maxImpostors;
-  if (state.undercoverCount > maxUndercover) state.undercoverCount = Math.max(1, maxUndercover);
+  const minUndercover = state.hasGhost ? 0 : 1;
+  state.undercoverCount = Math.max(minUndercover, Math.min(maxUndercover, state.undercoverCount));
   renderSetup();
 }
 
 function changeUndercover(delta) {
   const maxImpostors = Math.max(1, state.playerCount - 2);
   const maxUndercover = state.hasGhost ? maxImpostors - 1 : maxImpostors;
-  const next = Math.max(1, Math.min(maxUndercover, state.undercoverCount + delta));
+  const minUndercover = state.hasGhost ? 0 : 1;
+  const next = Math.max(minUndercover, Math.min(maxUndercover, state.undercoverCount + delta));
   state.undercoverCount = next;
   renderSetup();
 }
@@ -245,7 +247,8 @@ function toggleGhost() {
   state.hasGhost = !state.hasGhost;
   const maxImpostors = Math.max(1, state.playerCount - 2);
   const maxUndercover = state.hasGhost ? maxImpostors - 1 : maxImpostors;
-  if (state.undercoverCount > maxUndercover) state.undercoverCount = Math.max(1, maxUndercover);
+  const minUndercover = state.hasGhost ? 0 : 1;
+  state.undercoverCount = Math.max(minUndercover, Math.min(maxUndercover, state.undercoverCount));
   renderSetup();
 }
 
@@ -296,7 +299,7 @@ function renderSetup() {
     `${civCount} ${t('role-civilian')}${civCount !== 1 ? 'S' : ''}`,
     `${state.undercoverCount} ${t('role-undercover')}${state.undercoverCount !== 1 ? 'S' : ''}`,
   ];
-  if (state.hasGhost) chips.push('1 THE GHOST');
+  if (state.hasGhost) chips.push(`1 ${t('role-ghost')}`);
   chips.forEach(label => {
     const span = document.createElement('span');
     span.className = 'role-chip';
