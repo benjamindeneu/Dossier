@@ -922,40 +922,40 @@
 <div class="scene" id="scene-round">
   <div class="round-header">
     <div class="round-number" id="round-number">ROUND 1</div>
-    <div class="round-title">Speaking Order</div>
+    <div class="round-title" data-i18n="round-order">Speaking Order</div>
   </div>
 
   <div class="file">
-    <div class="file-label">Each player gives ONE word about their secret</div>
+    <div class="file-label" data-i18n="round-desc">Each player gives ONE word about their secret</div>
     <ul class="speaker-list" id="speaker-list"></ul>
   </div>
 
   <div class="file">
-    <div class="file-label">Discussion Timer (optional)</div>
+    <div class="file-label" data-i18n="timer-optional">Discussion Timer (optional)</div>
     <div class="timer">
       <div class="timer-display" id="timer-display">2:00</div>
-      <div class="timer-label" id="timer-label">tap below to start</div>
+      <div class="timer-label" id="timer-label" data-i18n="timer-tap-start">tap below to start</div>
     </div>
-    <button class="btn btn-ghost" id="timer-btn" data-action="toggle-timer">START 2:00 TIMER</button>
+    <button class="btn btn-ghost" id="timer-btn" data-action="toggle-timer" data-i18n="timer-btn-start">START 2:00 TIMER</button>
   </div>
 
-  <button class="btn btn-primary" data-action="goto" data-scene="vote">▸ PROCEED TO VOTE</button>
+  <button class="btn btn-primary" data-action="goto" data-scene="vote" data-i18n="btn-proceed-vote">▸ PROCEED TO VOTE</button>
 </div>
 
 <!-- ============ VOTE ============ -->
 <div class="scene" id="scene-vote">
   <div class="title-block">
     <div class="pretitle">Round <span id="vote-round-num">1</span></div>
-    <h1 class="title" style="font-size: clamp(48px, 12vw, 72px);">The Vote</h1>
-    <div class="subtitle">— who is hiding something? —</div>
+    <h1 class="title" style="font-size: clamp(48px, 12vw, 72px);" data-i18n="vote-title">The Vote</h1>
+    <div class="subtitle" data-i18n="vote-subtitle">— who is hiding something? —</div>
   </div>
 
   <div class="file">
-    <div class="file-label">Tap the player to eliminate</div>
+    <div class="file-label" data-i18n="vote-instruction">Tap the player to eliminate</div>
     <div class="vote-grid" id="vote-grid"></div>
   </div>
 
-  <button class="btn btn-ghost" data-action="goto" data-scene="round">◂ MORE DISCUSSION</button>
+  <button class="btn btn-ghost" data-action="goto" data-scene="round" data-i18n="btn-more-disc">◂ MORE DISCUSSION</button>
 </div>
 
 <!-- ============ ELIMINATION REVEAL ============ -->
@@ -989,29 +989,29 @@
 <!-- ============ END GAME ============ -->
 <div class="scene" id="scene-end">
   <div class="end-card">
-    <div class="ornament">✦ END OF GAME ✦</div>
+    <div class="ornament" data-i18n="end-title">✦ END OF GAME ✦</div>
     <div class="end-banner" id="end-banner">VICTORY</div>
     <div class="subtitle" id="end-subtitle">—</div>
 
     <div class="end-words">
       <div class="end-word-block">
-        <div class="end-word-label">Civilians</div>
+        <div class="end-word-label" data-i18n="role-civilian">Civilians</div>
         <div class="end-word-value" id="end-civ-word">—</div>
       </div>
       <div class="end-word-block undercover-block">
-        <div class="end-word-label">Undercover</div>
+        <div class="end-word-label" data-i18n="role-undercover">Undercover</div>
         <div class="end-word-value" id="end-und-word">—</div>
       </div>
     </div>
 
     <div class="file" style="text-align:left; margin-top:20px;">
-      <div class="file-label">The Whole Cast</div>
+      <div class="file-label" data-i18n="end-cast-label">The Whole Cast</div>
       <div class="role-reveal-list" id="role-reveal-list"></div>
     </div>
   </div>
 
-  <button class="btn btn-primary" data-action="new-game-same-roster">▸ PLAY AGAIN · SAME PLAYERS</button>
-  <button class="btn" data-action="goto" data-scene="home">▸ NEW GAME</button>
+  <button class="btn btn-primary" data-action="new-game-same-roster" data-i18n="end-btn-again">▸ PLAY AGAIN · SAME PLAYERS</button>
+  <button class="btn" data-action="goto" data-scene="home" data-i18n="end-btn-new">▸ NEW GAME</button>
 </div>
 
 <script src="words.js"></script>

@@ -90,7 +90,8 @@ const TRANSLATIONS = {
     'win-ghost': 'THE GHOST WINS',
     'win-impostors': 'IMPOSTORS WIN',
     'win-undercovers': 'UNDERCOVERS WIN',
-    'status-eliminated': '(eliminated)'
+    'status-eliminated': '(eliminated)',
+    'end-cast-label': 'The Whole Cast'
   },
   fr: {
     'home-pretitle': 'Dossier · Volume I',
@@ -162,7 +163,8 @@ const TRANSLATIONS = {
     'win-ghost': 'VICTOIRE DU FANTÔME',
     'win-impostors': 'VICTOIRE DES IMPOSTEURS',
     'win-undercovers': 'VICTOIRE DES INFILTRÉS',
-    'status-eliminated': '(éliminé)'
+    'status-eliminated': '(éliminé)',
+    'end-cast-label': 'Récapitulatif des rôles'
   }
 };
 
