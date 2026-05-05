@@ -8,6 +8,7 @@ const state = {
   playerCount: 5,
   undercoverCount: 1,
   hasGhost: true,
+  hideRole: true,
   players: [],            // [{ id, name, role, word, eliminated }]
   civilianWord: "",
   undercoverWord: "",
@@ -49,6 +50,7 @@ const TRANSLATIONS = {
     'setup-roles-label': 'Roles',
     'setup-undercover-label': 'Undercover Agents',
     'setup-ghost-toggle': 'Include The Ghost',
+    'setup-hide-role': 'Hide role (word only)',
     'setup-composition-label': 'Composition',
     'btn-start': '▸ DEAL THE CARDS',
     'reveal-pass': 'PASS THE DEVICE',
@@ -122,6 +124,7 @@ const TRANSLATIONS = {
     'setup-roles-label': 'Rôles',
     'setup-undercover-label': 'Agents Infiltrés',
     'setup-ghost-toggle': 'Inclure le Fantôme',
+    'setup-hide-role': 'Masquer le rôle (mot uniquement)',
     'setup-composition-label': 'Composition',
     'btn-start': '▸ DISTRIBUER LES CARTES',
     'reveal-pass': 'PASSEZ LE TÉLÉPHONE',
@@ -245,6 +248,11 @@ function changeUndercover(delta) {
   renderSetup();
 }
 
+function toggleHideRole() {
+  state.hideRole = !state.hideRole;
+  renderSetup();
+}
+
 function toggleGhost() {
   state.hasGhost = !state.hasGhost;
   const maxImpostors = Math.max(1, state.playerCount - 2);
@@ -258,6 +266,7 @@ function renderSetup() {
   document.getElementById('player-count-display').textContent = state.playerCount;
   document.getElementById('undercover-count').textContent = state.undercoverCount;
   document.getElementById('ghost-toggle').classList.toggle('on', state.hasGhost);
+  document.getElementById('hide-role-toggle').classList.toggle('on', state.hideRole);
 
   // Sync players array with playerCount
   while (state.players.length < state.playerCount) {
@@ -367,10 +376,10 @@ function renderReveal() {
   let wordHTML = '';
 
   if (player.role === 'civilian') {
-    roleLabel = t('role-civilian');
+    roleLabel = state.hideRole ? '' : t('role-civilian');
     wordHTML = `<div class="secret-word">${escapeHtml(player.word)}</div>`;
   } else if (player.role === 'undercover') {
-    roleLabel = t('role-undercover');
+    roleLabel = state.hideRole ? '' : t('role-undercover');
     wordHTML = `<div class="secret-word">${escapeHtml(player.word)}</div>`;
   } else {
     roleLabel = t('role-ghost');
@@ -380,7 +389,7 @@ function renderReveal() {
   card.innerHTML = `
     <div class="tap-hint">${t('reveal-tap')}</div>
     <div class="secret-content">
-      <div class="secret-role">${roleLabel}</div>
+      ${roleLabel ? `<div class="secret-role">${roleLabel}</div>` : ''}
       ${wordHTML}
     </div>
   `;
@@ -415,10 +424,13 @@ function renderRound() {
   document.getElementById('vote-round-num').textContent = state.roundNumber;
 
   if (!state.speakerOrder || state.speakerOrderRound !== state.roundNumber) {
-    const aliveIdx = [];
-    state.players.forEach((p, i) => { if (!p.eliminated) aliveIdx.push(i); });
-    shuffle(aliveIdx);
-    state.speakerOrder = aliveIdx;
+    const aliveIdx = state.players.map((_, i) => i).filter(i => !state.players[i].eliminated);
+    const eligibleFirst = aliveIdx.filter(i => state.players[i].role !== 'ghost');
+    const startIdx = eligibleFirst.length > 0
+      ? eligibleFirst[Math.floor(Math.random() * eligibleFirst.length)]
+      : aliveIdx[Math.floor(Math.random() * aliveIdx.length)];
+    const startPos = aliveIdx.indexOf(startIdx);
+    state.speakerOrder = [...aliveIdx.slice(startPos), ...aliveIdx.slice(0, startPos)];
     state.speakerOrderRound = state.roundNumber;
   }
 
@@ -702,6 +714,9 @@ function handleAction(action, target) {
       break;
     case 'toggle-ghost':
       toggleGhost();
+      break;
+    case 'toggle-hide-role':
+      toggleHideRole();
       break;
     case 'start-game':
       startGame();
